@@ -1,4 +1,8 @@
 const path = require('path')
+const { stringCheckUnits } = require('./utils/units')
+
+const UNITS = stringCheckUnits(process.env.UNITS)
+
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 const express = require('express')
@@ -19,7 +23,7 @@ app.post('/weatherforecast', async (request, response) => {
 
   try {
     const message = await weatherForecast(location, time)
-    response.json({ fulfillmentText: `the temperature is about ${message.temp} degree Farenheit in ${location}` })
+    response.json({ speech: `A temperatura está ${message.temp} graus ${UNITS} em ${location}` })
   } catch (error) {
     response.status(500).json({ error: error })
   }
