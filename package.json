@@ -1,0 +1,19 @@
+{
+  "name": "weather-forecast-api",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "Artur Pedrosa <apedrosa.dev@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6",
+    "standard": "^16.0.2"
+  }
+}
