@@ -1,9 +1,8 @@
 const path = require('path')
-const { stringCheckUnits } = require('./utils/units')
-
-const UNITS = stringCheckUnits(process.env.UNITS)
+const utils = require('./utils/units')
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
+const UNITS = utils.stringCheckUnits(process.env.UNITS)
 
 const express = require('express')
 const bodyParser = require('body-parser')

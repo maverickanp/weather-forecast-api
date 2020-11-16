@@ -10,4 +10,4 @@ const stringCheckUnits = (units) => {
   }
 }
 
-module.exports = stringCheckUnits
+module.exports = { stringCheckUnits }
