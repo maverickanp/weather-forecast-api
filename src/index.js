@@ -13,7 +13,7 @@ app.post('/weatherforecast', async (request, response) => {
 
   try {
     const message = await weatherForecast(location, time)
-    response.status(200).json({ fulfillmentText: message })
+    response.json({ fulfillmentText: `the temperature is about ${message.temp} degree Farenheit in ${location}` })
   } catch (error) {
     response.status(500).json({ error: error })
   }
