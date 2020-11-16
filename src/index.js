@@ -1,3 +1,4 @@
+const path = require('path')
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 const express = require('express')
@@ -6,6 +7,11 @@ const weatherForecast = require('./openWeatherClient')
 
 const app = express()
 app.use(bodyParser.json())
+app.use(express.static(path.join(__dirname, 'public')))
+
+app.get('/', function (_, res) {
+  res.render('index')
+})
 
 app.post('/weatherforecast', async (request, response) => {
   const location = request.body.queryResult.parameters.location.city
