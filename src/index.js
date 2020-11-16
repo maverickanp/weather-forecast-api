@@ -22,7 +22,7 @@ app.post('/weatherforecast', async (request, response) => {
 
   try {
     const message = await weatherForecast(location, time)
-    response.json({ speech: `A temperatura está ${message.temp} graus ${UNITS} em ${location}` })
+    response.json({ fulfillmentText: `A temperatura está ${message.temp} graus ${UNITS} em ${location}` })
   } catch (error) {
     response.status(500).json({ error: error })
   }
