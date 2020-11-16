@@ -2,7 +2,7 @@ const express = require('express')
 
 const app = express()
 
-app.get('/weatherforecast', (request, response) => {
+app.post('/weatherforecast', (request, response) => {
   console.log(request.body)
   response.json({ fulfillmentText: 'paranaue' })
 })
