@@ -1,15 +1,22 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const weatherApi = require('./openWeatherClient');
+require('dotenv').config()
 
-const app = express();
-app.use(bodyParser.json());
+const express = require('express')
+const bodyParser = require('body-parser')
+const weatherForecast = require('./openWeatherClient')
+
+const app = express()
+app.use(bodyParser.json())
 
 app.post('/weatherforecast', async (request, response) => {
-  const location = request.body.queryResult['location'];
-  const time = request.body.queryResult['date-time'] || new Date();
-  const message = await weatherApi(location, time);
-  response.json({ fulfillmentText: message });
+  const location = request.body.queryResult.parameters.location.city
+  const time = request.body.queryResult.parameters['date-time'] || new Date()
+
+  try {
+    const message = await weatherForecast(location, time)
+    response.status(200).json({ fulfillmentText: message })
+  } catch (error) {
+    response.status(500).json({ error: error })
+  }
 })
 
 app.listen(process.env.PORT || 5000)
