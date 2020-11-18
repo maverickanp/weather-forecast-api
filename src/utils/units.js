@@ -2,9 +2,9 @@
 const stringCheckUnits = (units) => {
   switch (units) {
     case 'metric':
-      return 'Celsius'
+      return '°C'
     case 'imperial':
-      return 'Fahrenheit'
+      return '°F'
     default:
       return 'invalid input'
   }
