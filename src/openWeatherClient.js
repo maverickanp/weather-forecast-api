@@ -8,11 +8,23 @@ const UNITS = process.env.UNITS
 const weatherForecast = async (location, date) => {
   try {
     const response = await axios.get(WEATHER_PUB_API + `?q=${location}&appid=${API_KEY}&units=${UNITS}&lang=${LANG}`)
-
     return response.data.list[0].main
   } catch (error) {
     return error
   }
 }
 
-module.exports = weatherForecast
+const weatherIcon = async (icon = '01d') => {
+  // get the icon from currenty description weather
+  try {
+    // https://openweathermap.org/img/wn/{icon}@2x.png
+    return `https://openweathermap.org/img/wn/${icon}@2x.png`
+  } catch (error) {
+    return error
+  }
+}
+
+module.exports = {
+  weatherForecast,
+  weatherIcon
+}
