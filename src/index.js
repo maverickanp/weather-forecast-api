@@ -8,7 +8,7 @@ const UNITS = utils.stringCheckUnits(process.env.UNITS)
 
 const express = require('express')
 const bodyParser = require('body-parser')
-const { weatherForecast, weatherIcon } = require('./openWeatherClient')
+const { weatherForecast } = require('./openWeatherClient')
 
 const app = express()
 app.use(bodyParser.json())
@@ -27,9 +27,9 @@ app.post('/weatherforecastDF', async (request, response) => {
 
   try {
     const message = await weatherForecast(location, time)
-    const iconUrl = await weatherIcon(message.weather.icon)
+    // const iconUrl = await weatherIcon(message.weather.icon)
 
-    response.json({ fulfillmentText: `A temperatura está ${message.temp}${UNITS} graus em ${location} ${iconUrl} \n ${action}` })
+    response.json({ fulfillmentText: `A temperatura está ${message.temp}${UNITS} graus em ${location} \n ${action}` })
   } catch (error) {
     response.status(500).json({ error: error })
   }
