@@ -7,7 +7,7 @@ const UNITS = utils.stringCheckUnits(process.env.UNITS)
 
 const express = require('express')
 const bodyParser = require('body-parser')
-const weatherForecast = require('./openWeatherClient')
+const { weatherForecast, weatherIcon } = require('./openWeatherClient')
 
 const app = express()
 app.use(bodyParser.json())
@@ -17,22 +17,51 @@ app.get('/', function (_, res) {
   res.render('index')
 })
 
-app.post('/weatherforecast', async (request, response) => {
+app.post('/weatherforecastDF', async (request, response) => {
   const location = request.body.queryResult.parameters.location.city
   const time = request.body.queryResult.parameters['date-time'] || new Date()
+  // weatherRain | weatherSun |
+  const action = request.body.queryResult.action
 
   try {
     const message = await weatherForecast(location, time)
-    response.json({ fulfillmentText: `A temperatura está ${message.temp} graus ${UNITS} em ${location} \u{26C8}` })
+    const iconUrl = await weatherIcon(message.weather.icon)
+
+    response.json({ fulfillmentText: `A temperatura está ${message.temp}${UNITS} graus em ${location} ${iconUrl} \n ${action}` })
   } catch (error) {
     response.status(500).json({ error: error })
   }
 })
 
+app.post('/weatherforecast', async (request, response) => {
+  const location = request.body.queryResult.parameters.location.city
+  const time = request.body.queryResult.parameters['date-time'] || new Date()
+  // weatherRain | weatherSun |
+  const action = request.body.queryResult.action
+
+  try {
+    const message = await weatherForecast(location, time)
+    const iconUrl = await weatherIcon(message.weather.icon)
+
+    response.json({ fulfillmentText: `A temperatura está ${message.temp}${UNITS} graus em ${location} ${iconUrl} \n ${action}` })
+  } catch (error) {
+    response.status(500).json({ error: error })
+  }
+})
+
+// {
+//   "user": "abc123",
+//   "query": "Vai chover hoje no Rio?"
+// }
+
 app.get('/translate', (request, response) => {
+  const text = 'light intensity shower rain'
+  const lang = 'pt'
+  const weatherGroup = 'Rain'
+
   try {
     // group, text, lang
-    response.json({ thunderstorm: `${weatherGroupsTranslate.groupsTranslate('Thunderstorm', 'thunderstorm', 'pt')} \u{26C8}` })
+    response.json({ text: `${weatherGroupsTranslate.groupsTranslate(weatherGroup, text, lang)} \u{1F327}` })
   } catch (error) {
     response.status(500).json({ error: error })
   }
