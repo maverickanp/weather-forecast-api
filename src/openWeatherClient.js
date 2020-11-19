@@ -5,10 +5,10 @@ const API_KEY = process.env.API_KEY
 const LANG = process.env.LANG
 const UNITS = process.env.UNITS
 
-const weatherForecast = async (location, date) => {
+const weatherForecast = async (location) => {
   try {
     const response = await axios.get(WEATHER_PUB_API + `?q=${location}&appid=${API_KEY}&units=${UNITS}&lang=${LANG}`)
-    return response.data.list[0].main
+    return response.data.list[0]
   } catch (error) {
     return error
   }
