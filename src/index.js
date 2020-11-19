@@ -19,9 +19,10 @@ app.get('/', function (_, res) {
 })
 
 app.post('/weatherforecastdf', async (request, response) => {
+  console.log('ACIONOU weatherforecastdf')
   const location = request.body.queryResult.parameters.location.city
   const time = request.body.queryResult.parameters['date-time'] || new Date()
-  // weatherRain | weatherSun | weather
+  // weatherRain | weatherSun | weather | weatherWind
   const action = request.body.queryResult.action
   console.log(action)
 
@@ -36,33 +37,36 @@ app.post('/weatherforecastdf', async (request, response) => {
 })
 
 app.post('/weatherforecast', async (request, response) => {
-  // POST https://dialogflow.googleapis.com/v2/projects/project-id/agent/sessions/session-id:detectIntent
-  // Project ID = 'weather-forecast-orff'
-  // AGENT_LANGUAGE = "pt-br";
-  // AGENT_ID = "b23060bb-8093-40ee-83bf-099eab6bb119";
-  // AGENT_AVATAR_ID = "https://www.gstatic.com/dialogflow-console/common/assets/img/logo-short.png";
-  // SERVICE_BASE_URL = "https://console.dialogflow.com/api-client/";
-  // BOT_SERVICE_BASE_URL = "https://bots.dialogflow.com";
-  // V2_ENABLED = true;
-
-  // const location = request.body.queryResult.parameters.location.city
-  // const time = request.body.queryResult.parameters['date-time'] || new Date()
-  // weatherRain | weatherSun |
-  // const action = request.body.queryResult.action
+  // input
+  // {
+  //   "user": "abc123",
+  //   "query": "Vai chover hoje no Rio?"
+  // }
 
   const user = request.body.user
   const query = request.body.query
   const queries = []
   queries.push(query)
 
-  await detectIntent.executeQueries('weather-forecast-orff', user, queries, 'pt-br')
-  response.json({ process: 'DONE' })
+  const intentResponse = await detectIntent.executeQueries('weather-forecast-orff', user, queries, 'pt-br')
+
+  // example qd todos os parameters foram preenchidos
+  // retornar a mensagem completa
+
+  // example qnd esta faltando parametros
+  // interagir para obter e preencher os parameters faltantes
+
+  response.json({
+    user: user,
+    response: intentResponse
+  })
 })
 
+// response
 // {
 //   "user": "abc123",
-//   "query": "Vai chover hoje no Rio?"
-// }
+//   "response": "Há 40% de chance de chuva na cidade do Rio de Janeiro."
+// {
 
 app.get('/translate', (request, response) => {
   const text = 'light intensity shower rain'
