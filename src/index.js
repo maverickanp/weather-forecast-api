@@ -1,5 +1,6 @@
 const path = require('path')
 const utils = require('./utils/units')
+const datetime = require('./utils/datetime')
 const weatherGroupsTranslate = require('./utils/weatherVariations')
 const detectIntent = require('./utils/intents')
 
@@ -19,18 +20,48 @@ app.get('/', function (_, res) {
 })
 
 app.post('/weatherforecastdf', async (request, response) => {
-  console.log('ACIONOU weatherforecastdf')
+  const today = new Date().getDate()
   const location = request.body.queryResult.parameters.location.city
-  const time = request.body.queryResult.parameters['date-time'] || new Date()
+  const strTime = request.body.queryResult.parameters['date-time'].stringValue || request.body.queryResult.parameters['date-time'].structValue.fields.startDateTime.stringValue
+  // strTime = strTime || request.body.queryResult.parameters['date-time'].structValue.fields.startDateTime.stringValue
+  const time = new Date(strTime) // 1605830400 * 1000 -> convert the current datetime in millis
+
   // weatherRain | weatherSun | weather | weatherWind
   const action = request.body.queryResult.action
-  console.log(action)
 
   try {
-    const message = await weatherForecast(location, time)
+    const message = await weatherForecast(location)
     // const iconUrl = await weatherIcon(message.weather.icon)
-
-    response.json({ fulfillmentText: `A temperatura está ${message.temp}${UNITS} graus em ${location} \n ${action}` })
+    // message.list[0]
+    switch (action) {
+      case 'weatherRain':
+        response.json({
+          fulfillmentText: `Há ${message.main.humidity}% de chance de ${message.weather.description} 
+        ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} com a temperatura média de 
+        ${message.main.temp}${UNITS} graus na região de ${location} \n`
+        })
+        break
+      case 'weatherSun':
+        response.json({
+          fulfillmentText: `Há ${message.main.humidity}% de chance de ${message.weather.description} 
+          ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} com a temperatura de 
+          ${message.main.temp}${UNITS} graus na região de ${location} \n`
+        })
+        break
+      case 'weatherWind':
+        response.json({
+          fulfillmentText: `A velocidade do vento ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} é de ${message.wind.speed}km/h na região de ${location} \n`
+        })
+        break
+      default:
+        response.json({
+          fulfillmentText: `A previsão de ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} é de ${message.main.temp}${UNITS} graus na região de ${location} \n
+          mínima de ${message.main.temp_min}\n
+          máxima de ${message.main.temp_min}\n
+          e a sensação térmica de ${message.main.feels_like}${UNITS}`
+        })
+        break
+    }
   } catch (error) {
     response.status(500).json({ error: error })
   }
@@ -50,12 +81,6 @@ app.post('/weatherforecast', async (request, response) => {
 
   const intentResponse = await detectIntent.executeQueries('weather-forecast-orff', user, queries, 'pt-br')
 
-  // example qd todos os parameters foram preenchidos
-  // retornar a mensagem completa
-
-  // example qnd esta faltando parametros
-  // interagir para obter e preencher os parameters faltantes
-
   response.json({
     user: user,
     response: intentResponse
@@ -70,11 +95,11 @@ app.post('/weatherforecast', async (request, response) => {
 
 app.get('/translate', (request, response) => {
   const text = 'light intensity shower rain'
-  const lang = 'pt'
+  const lang = 'pt' // 'ptEmj' -> with emojis
   const weatherGroup = 'Rain'
 
   try {
-    // group, text, lang
+    // group, text, lang = 'pt' || 'ptEmj'
     response.json({ text: `${weatherGroupsTranslate.groupsTranslate(weatherGroup, text, lang)} \u{1F327}` })
   } catch (error) {
     response.status(500).json({ error: error })
