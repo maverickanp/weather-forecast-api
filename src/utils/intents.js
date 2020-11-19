@@ -80,6 +80,7 @@ async function executeQueries (projectId, sessionId, queries, languageCode) {
       console.log(error)
     }
   }
+  return intentResponse.queryResult
 }
 
 module.exports = {
