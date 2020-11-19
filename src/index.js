@@ -18,7 +18,7 @@ app.get('/', function (_, res) {
   res.render('index')
 })
 
-app.post('/weatherforecastDF', async (request, response) => {
+app.post('/weatherforecastdf', async (request, response) => {
   const location = request.body.queryResult.parameters.location.city
   const time = request.body.queryResult.parameters['date-time'] || new Date()
   // weatherRain | weatherSun | weather
@@ -52,8 +52,10 @@ app.post('/weatherforecast', async (request, response) => {
 
   const user = request.body.user
   const query = request.body.query
+  const queries = []
+  queries.push(query)
 
-  detectIntent.executeQueries('weather-forecast-orff', user, query, 'pt-br')
+  await detectIntent.executeQueries('weather-forecast-orff', user, queries, 'pt-br')
   response.json({ process: 'DONE' })
 })
 
