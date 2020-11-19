@@ -99,6 +99,94 @@ const Rain = {
   }
 }
 
+const Snow = {
+  'light snow': {
+    pt: 'light neve'
+  },
+  Snow: {
+    pt: 'neve'
+  },
+  'Heavy snow': {
+    pt: 'Heavy neve'
+  },
+  Sleet: {
+    pt: 'granizo'
+  },
+  'Light shower sleet': {
+    pt: 'chuva leve de granizo'
+  },
+  'Shower sleet': {
+    pt: 'chuva de granizo'
+  },
+  'Light rain and snow': {
+    pt: 'chuva fraca e neve'
+  },
+  'Rain and snow': {
+    pt: 'chuva e neve'
+  },
+  'Light shower snow': {
+    pt: 'chuva fraca de neve'
+  },
+  'Shower snow': {
+    pt: 'chuva de neve'
+  },
+  'Heavy shower snow': {
+    pt: 'chuva forte de neve'
+  }
+}
+
+const Atmosphere = {
+  'few clouds': {
+    pt: 'algumas nuvens',
+    ptEmj: '\u{1F324} algumas nuvens \u{1F324}'
+  },
+  'scattered clouds': {
+    pt: 'nuvens dispersas',
+    ptEmj: '\u{26C5} nuvens dispersas \u{26C5}'
+  },
+  'broken clouds': {
+    pt: 'nublado',
+    ptEmj: '\u{1F325} nublado \u{1F325}'
+  },
+  'overcast clouds': {
+    pt: 'nuvens carregadas',
+    ptEmj: '\u{2601} nuvens carregadas \u{2601}'
+  }
+}
+
+// example with clear sky -> all = 10
+// < 11% -> \u{2600}
+const Clear = {
+  'clear sky': {
+    pt: 'céu limpo',
+    ptEmj: '\u{2600} céu limpo \u{2600}'
+  }
+}
+
+// example with few clouds -> all = 11
+// "clouds": {
+//   "all": 11
+// }
+//  > 11-25% -> \u{1F324} || > 25-50% -> \u{26C5} || > 51-84% -> \u{1F325} || > 85-100% -> \u{2601}
+const Cloud = {
+  'few clouds': {
+    pt: 'algumas nuvens',
+    ptEmj: '\u{1F324} algumas nuvens \u{1F324}'
+  },
+  'scattered clouds': {
+    pt: 'nuvens dispersas',
+    ptEmj: '\u{26C5} nuvens dispersas \u{26C5}'
+  },
+  'broken clouds': {
+    pt: 'nublado',
+    ptEmj: '\u{1F325} nublado \u{1F325}'
+  },
+  'overcast clouds': {
+    pt: 'nuvens carregadas',
+    ptEmj: '\u{2601} nuvens carregadas \u{2601}'
+  }
+}
+
 const groupsTranslate = (group, text, lang) => {
   switch (group) {
     case 'Thunderstorm':
@@ -107,6 +195,14 @@ const groupsTranslate = (group, text, lang) => {
       return Drizzle[text][lang]
     case 'Rain':
       return Rain[text][lang]
+    case 'Snow':
+      return Snow[text][lang]
+    case 'Atmosphere':
+      return Atmosphere[text][lang]
+    case 'Clear':
+      return Clear[text][lang]
+    case 'Cloud':
+      return Cloud[text][lang]
     default:
       return 'Entrada inválida'
   }
