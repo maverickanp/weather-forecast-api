@@ -1,5 +1,5 @@
 const axios = require('axios')
-
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 const WEATHER_PUB_API = process.env.WEATHER_PUB_API
 const API_KEY = process.env.API_KEY
 const LANG = process.env.LANG
