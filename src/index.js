@@ -22,7 +22,7 @@ app.get('/', function (_, res) {
 app.post('/weatherforecastdf', async (request, response) => {
   const today = new Date().getDate()
   const location = request.body.queryResult.parameters.location.city
-  const strTime = request.body.queryResult.parameters['date-time'].stringValue || request.body.queryResult.parameters['date-time'].structValue.fields.startDateTime.stringValue
+  const strTime = request.body.queryResult.parameters['date-time']
   // strTime = strTime || request.body.queryResult.parameters['date-time'].structValue.fields.startDateTime.stringValue
   const time = new Date(strTime) // 1605830400 * 1000 -> convert the current datetime in millis
 
