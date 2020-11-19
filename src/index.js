@@ -36,14 +36,14 @@ app.post('/weatherforecastdf', async (request, response) => {
     switch (action) {
       case 'weatherRain':
         response.json({
-          fulfillmentText: `Há ${message.main.humidity}% de chance de ${message.weather.description} 
+          fulfillmentText: `Há ${message.main.humidity}% de chance de ${message.weather[0].description} 
         ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} com a temperatura média de 
         ${message.main.temp}${UNITS} graus na região de ${location} \n`
         })
         break
       case 'weatherSun':
         response.json({
-          fulfillmentText: `Há ${message.main.humidity}% de chance de ${message.weather.description} 
+          fulfillmentText: `Há ${message.main.humidity}% de chance de ${message.weather[0].description} 
           ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} com a temperatura de 
           ${message.main.temp}${UNITS} graus na região de ${location} \n`
         })
