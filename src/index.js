@@ -45,29 +45,29 @@ app.post('/weatherforecastdf', async (request, response) => {
     switch (action) {
       case 'weatherRain':
         response.json({
-          fulfillmentText: `Há ${listWeatherDate[4].main.humidity}% de humidade no ar, e o tempo predominante é ${listWeatherDate[4].weather[0].description} 
+          fulfillmentText: `Há ${listWeatherDate[0].main.humidity}% de humidade no ar, e o tempo predominante é ${listWeatherDate[0].weather[0].description} 
         ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} com a temperatura média de 
-        ${listWeatherDate[4].main.temp}${UNITS} graus na região de ${location}`
+        ${listWeatherDate[0].main.temp}${UNITS} graus na região de ${location}`
         })
         break
       case 'weatherSun':
         response.json({
-          fulfillmentText: `Há ${listWeatherDate[4].main.humidity}% de chance de chuva, e o tempo predominante é ${listWeatherDate[4].weather[0].description} 
+          fulfillmentText: `Há ${listWeatherDate[0].main.humidity}% de chance de chuva, e o tempo predominante é ${listWeatherDate[0].weather[0].description} 
           ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} com a temperatura de 
-          ${listWeatherDate[4].main.temp}${UNITS} graus na região de ${location}`
+          ${listWeatherDate[0].main.temp}${UNITS} graus na região de ${location}`
         })
         break
       case 'weatherWind':
         response.json({
-          fulfillmentText: `A velocidade do vento ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} é de ${listWeatherDate[4].wind.speed}km/h na região de ${location}`
+          fulfillmentText: `A velocidade do vento ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} é de ${listWeatherDate[0].wind.speed}km/h na região de ${location}`
         })
         break
       default:
         response.json({
-          fulfillmentText: `A previsão de ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} é de ${listWeatherDate[4].main.temp}${UNITS} graus na região de ${location} \n
-          mínima de ${listWeatherDate[4].main.temp_min}\n
-          máxima de ${listWeatherDate[4].main.temp_min}\n
-          e a sensação térmica de ${listWeatherDate[4].main.feels_like}${UNITS}`
+          fulfillmentText: `A previsão de ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} é de ${listWeatherDate[0].main.temp}${UNITS} graus na região de ${location} \n
+          mínima de ${listWeatherDate[0].main.temp_min}\n
+          máxima de ${listWeatherDate[0].main.temp_min}\n
+          e a sensação térmica de ${listWeatherDate[0].main.feels_like}${UNITS}`
         })
         break
     }
