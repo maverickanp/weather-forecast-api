@@ -64,7 +64,11 @@ app.post('/weatherforecastdf', async (request, response) => {
         break
     }
   } catch (error) {
-    response.status(500).json({ error: error })
+    response.status(500).json({
+      location,
+      time,
+      error: error
+    })
   }
 })
 
