@@ -5,12 +5,13 @@ const weatherGroupsTranslate = require('./utils/weatherVariations')
 const detectIntent = require('./utils/intents')
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
-const UNITS = utils.stringCheckUnits(process.env.UNITS)
+const UNITS = utils.stringCheckUnits(process.env.UNITS) || 'metric'
 
 const express = require('express')
 const bodyParser = require('body-parser')
 const { weatherForecast } = require('./openWeatherClient')
 
+const standardMsg = 'Estou aqui para te ajuda com a previsão do tempo, sou capaz de saber as condições do clima de qualquer cidade, num periodo de até 5 dias, \nentão experimente falar...\n\n- Como está o tempo no Rio de Janeiro?\n- Amanhã vai chover no Rio?\n- Vai fazer sol?'
 const app = express()
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')))
@@ -21,9 +22,9 @@ app.get('/', function (_, res) {
 
 app.post('/weatherforecastdf', async (request, response) => {
   const today = new Date().getDate()
+
   const location = request.body.queryResult.parameters.location.city
   const strTime = request.body.queryResult.parameters['date-time']
-  // strTime = strTime || request.body.queryResult.parameters['date-time'].structValue.fields.startDateTime.stringValue
   const time = new Date(strTime) // 1605830400 * 1000 -> convert the current datetime in millis
 
   // weatherRain | weatherSun | weather | weatherWind
@@ -31,35 +32,42 @@ app.post('/weatherforecastdf', async (request, response) => {
 
   try {
     const message = await weatherForecast(location)
-    console.log('action:', action, JSON.stringify(message))
+    // console.log('action:', action, JSON.stringify(message))
     // const iconUrl = await weatherIcon(message.weather.icon)
     // message.list[0]
+    const listWeatherDate = []
+    for (const moment of message) {
+      if (time.getDate() === new Date(moment.dt * 1000).getDate()) {
+        listWeatherDate.push(moment)
+      }
+    }
+
     switch (action) {
       case 'weatherRain':
         response.json({
-          fulfillmentText: `Há ${message.main.humidity}% de chance de ${message.weather[0].description} 
+          fulfillmentText: `Há ${listWeatherDate[4].main.humidity}% de humidade no ar, e o tempo predominante é ${listWeatherDate[4].weather[0].description} 
         ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} com a temperatura média de 
-        ${message.main.temp}${UNITS} graus na região de ${location} \n`
+        ${listWeatherDate[4].main.temp}${UNITS} graus na região de ${location}`
         })
         break
       case 'weatherSun':
         response.json({
-          fulfillmentText: `Há ${message.main.humidity}% de chance de ${message.weather[0].description} 
+          fulfillmentText: `Há ${listWeatherDate[4].main.humidity}% de chance de chuva, e o tempo predominante é ${listWeatherDate[4].weather[0].description} 
           ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} com a temperatura de 
-          ${message.main.temp}${UNITS} graus na região de ${location} \n`
+          ${listWeatherDate[4].main.temp}${UNITS} graus na região de ${location}`
         })
         break
       case 'weatherWind':
         response.json({
-          fulfillmentText: `A velocidade do vento ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} é de ${message.wind.speed}km/h na região de ${location} \n`
+          fulfillmentText: `A velocidade do vento ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} é de ${listWeatherDate[4].wind.speed}km/h na região de ${location}`
         })
         break
       default:
         response.json({
-          fulfillmentText: `A previsão de ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} é de ${message.main.temp}${UNITS} graus na região de ${location} \n
-          mínima de ${message.main.temp_min}\n
-          máxima de ${message.main.temp_min}\n
-          e a sensação térmica de ${message.main.feels_like}${UNITS}`
+          fulfillmentText: `A previsão de ${time.getDate() === today ? 'hoje' : datetime.getWeekDayFrom(time)} é de ${listWeatherDate[4].main.temp}${UNITS} graus na região de ${location} \n
+          mínima de ${listWeatherDate[4].main.temp_min}\n
+          máxima de ${listWeatherDate[4].main.temp_min}\n
+          e a sensação térmica de ${listWeatherDate[4].main.feels_like}${UNITS}`
         })
         break
     }
@@ -85,15 +93,11 @@ app.post('/weatherforecast', async (request, response) => {
   queries.push(query)
 
   const intentResponse = await detectIntent.executeQueries('weather-forecast-orff', user, queries, 'pt-br')
-
-  const location = intentResponse.parameters.location
-  const time = intentResponse.parameters['date-time']
+  const fulfillmentText = intentResponse.fulfillmentText || standardMsg
 
   response.json({
-    location,
-    time,
-    user: user,
-    response: intentResponse
+    user,
+    response: fulfillmentText
   })
 })
 
