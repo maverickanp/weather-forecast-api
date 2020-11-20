@@ -41,7 +41,9 @@ app.post('/weatherforecastdf', async (request, response) => {
         listWeatherDate.push(moment)
       }
     }
-
+    if (listWeatherDate.length === 0) {
+      listWeatherDate.push(message[0])
+    }
     switch (action) {
       case 'weatherRain':
         response.json({
