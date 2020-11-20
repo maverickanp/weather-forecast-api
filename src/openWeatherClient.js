@@ -1,13 +1,12 @@
 const axios = require('axios')
-if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 const WEATHER_PUB_API = process.env.WEATHER_PUB_API
 const API_KEY = process.env.API_KEY
-const LANG = process.env.LANG
+const LANGUAGE = process.env.LANGUAGE
 const UNITS = process.env.UNITS
 
 const weatherForecast = async (location) => {
   try {
-    const response = await axios.get(WEATHER_PUB_API + `?q=${location}&appid=${API_KEY}&units=${UNITS}&lang=${LANG}`)
+    const response = await axios.get(WEATHER_PUB_API + `?q=${location}&appid=${API_KEY}&units=${UNITS}&lang=${LANGUAGE}`)
     return response.data.list[0]
   } catch (error) {
     return error
