@@ -7,6 +7,7 @@ const UNITS = process.env.UNITS
 const weatherForecast = async (location) => {
   try {
     const response = await axios.get(WEATHER_PUB_API + `?q=${location}&appid=${API_KEY}&units=${UNITS}&lang=${LANGUAGE}`)
+    console.log('response:', JSON.stringify(response.data))
     return response.data.list[0]
   } catch (error) {
     return error
