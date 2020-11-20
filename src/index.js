@@ -31,6 +31,7 @@ app.post('/weatherforecastdf', async (request, response) => {
 
   try {
     const message = await weatherForecast(location)
+    console.log(JSON.stringify(message))
     // const iconUrl = await weatherIcon(message.weather.icon)
     // message.list[0]
     switch (action) {
