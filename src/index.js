@@ -31,7 +31,7 @@ app.post('/weatherforecastdf', async (request, response) => {
 
   try {
     const message = await weatherForecast(location)
-    console.log(JSON.stringify(message))
+    console.log('action:', action, JSON.stringify(message))
     // const iconUrl = await weatherIcon(message.weather.icon)
     // message.list[0]
     switch (action) {
@@ -82,7 +82,12 @@ app.post('/weatherforecast', async (request, response) => {
 
   const intentResponse = await detectIntent.executeQueries('weather-forecast-orff', user, queries, 'pt-br')
 
+  const location = intentResponse.parameters.location
+  const time = intentResponse.parameters['date-time']
+
   response.json({
+    location,
+    time,
     user: user,
     response: intentResponse
   })
