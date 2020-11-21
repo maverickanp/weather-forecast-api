@@ -98,14 +98,13 @@ http://{YOUR-PATH_HERE}/weatherforecastdf/
 
 * Check if you have .env file on your project
 
-```
-PORT=5000
+```PORT=5000
 EXCHANGE_PUB_ENDPOINT= https://api.openweathermap.org/data/2.5/forecast
 API_KEY= YOUR-API-ID-HERE
 NODE_ENV = development
 LANGUAGE = pt_br
-UNITS = metric
-```
+UNITS = metric```
+
 ## Install packages and dependencies 🚀
 
 ```yarn install```
