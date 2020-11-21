@@ -5,6 +5,11 @@ const LANGUAGE = process.env.LANGUAGE
 const UNITS = process.env.UNITS
 
 const weatherForecast = async (location) => {
+  // workaround to deal with character
+  if (location === 'São Paulo') {
+    location = 'S%C3%A3o%20Paulo'
+  }
+
   try {
     const response = await axios.get(WEATHER_PUB_API + `?q=${location}&appid=${API_KEY}&units=${UNITS}&lang=${LANGUAGE}`)
     // console.log('response:', JSON.stringify(response.data))
