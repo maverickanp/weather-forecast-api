@@ -9,8 +9,9 @@ Features:
 * Can answer about the sun
 * can answer about the wind speed
 * can answer about the weather overall
+* Support some emojis related to weather conditions 😻
 
-  Technologies: express, dotenv, axios, body-parser, dialogflow, nodemon, standard
+Technologies: express, dotenv, axios, body-parser, dialogflow, nodemon, standard
 
 ## weather api
 
