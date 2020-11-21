@@ -39,6 +39,62 @@ http://localhost:5000/weatherforecast/
 }
 ```
 
+# configure the fulfillment webhook to request from dialogflow POST
+
+http://{YOUR-PATH_HERE}/weatherforecastdf/
+
+* input
+
+```{
+  "responseId": "d365c3a3-4133-4777-9e00-232f04164cab-ce5e18e2",
+  "queryResult": {
+    "queryText": "hoje vai chover no rio ?",
+    "action": "weatherRain",
+    "parameters": {
+      "date-time": "2020-11-20T12:00:00-03:00",
+      "location": {
+        "country": "",
+        "city": "Rio de Janeiro",
+        "admin-area": "",
+        "business-name": "",
+        "street-address": "",
+        "zip-code": "",
+        "shortcut": "",
+        "island": "",
+        "subadmin-area": ""
+      }
+    },
+    "allRequiredParamsPresent": true,
+    "fulfillmentText": "Eu acho que deu algum problema no serviço clima do tempo.",
+    "fulfillmentMessages": [
+      {
+        "text": {
+          "text": [
+            "Eu acho que deu algum problema no serviço clima do tempo."
+          ]
+        }
+      }
+    ],
+    "intent": {
+      "name": "projects/weather-forecast-orff/agent/intents/9399f646-78d3-4d54-baf0-b62586b16721",
+      "displayName": "weather rain"
+    },
+    "intentDetectionConfidence": 1,
+    "languageCode": "pt-br"
+  },
+  "originalDetectIntentRequest": {
+    "source": "DIALOGFLOW_CONSOLE",
+    "payload": {}
+  },
+  "session": "projects/weather-forecast-orff/agent/sessions/c00ddd10-ad58-e89a-08e1-418ae8c03694"
+}```
+
+* response
+
+```{
+  "fulfillmentText": "Há 77% de humidade no ar, e o tempo predominante é nublado \n        hoje com a temperatura média de \n        21.38°C graus na região de Rio de Janeiro"
+}```
+
 
 * Check if you have .env file on your project
 
