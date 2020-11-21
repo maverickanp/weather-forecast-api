@@ -50,6 +50,9 @@ NODE_ENV = development
 LANGUAGE = pt_br
 UNITS = metric
 ```
+## Install packages and dependencies 🚀
+
+```yarn install```
 
 ## Commands 🚀
 
