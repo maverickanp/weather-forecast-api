@@ -94,13 +94,19 @@ app.post('/weatherforecast', async (request, response) => {
   const queries = []
   queries.push(query)
 
-  const intentResponse = await detectIntent.executeQueries('weather-forecast-orff', user, queries, 'pt-br')
-  const fulfillmentText = intentResponse.fulfillmentText || standardMsg
+  try {
+    const intentResponse = await detectIntent.executeQueries('weather-forecast-orff', user, queries, 'pt-br')
+    const fulfillmentText = intentResponse.fulfillmentText || standardMsg
 
-  response.json({
-    user,
-    response: fulfillmentText
-  })
+    response.json({
+      user,
+      response: fulfillmentText
+    })
+  } catch (error) {
+    response.status(500).json({
+      error: error
+    })
+  }
 })
 
 // response
