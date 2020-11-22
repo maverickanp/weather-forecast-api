@@ -136,22 +136,37 @@ const Snow = {
 }
 
 const Atmosphere = {
-  'few clouds': {
-    pt: 'algumas nuvens',
-    ptEmj: '\u{1F324} algumas nuvens \u{1F324}'
+  mist: {
+    pt: 'névoa'
   },
-  'scattered clouds': {
-    pt: 'nuvens dispersas',
-    ptEmj: '\u{26C5} nuvens dispersas \u{26C5}'
+  Smoke: {
+    pt: 'fumaça'
   },
-  'broken clouds': {
-    pt: 'nublado',
-    ptEmj: '\u{1F325} nublado \u{1F325}'
+  Haze: {
+    pt: 'cerração'
   },
-  'overcast clouds': {
-    pt: 'nuvens carregadas',
-    ptEmj: '\u{2601} nuvens carregadas \u{2601}'
+  'sand/ dust whirls': {
+    pt: 'redemoinhos de areia / poeira'
+  },
+  fog: {
+    pt: 'nevoeiro'
+  },
+  sand: {
+    pt: 'areia'
+  },
+  dust: {
+    pt: 'poeira'
+  },
+  'volcanic ash': {
+    pt: 'cinza vulcanica'
+  },
+  squalls: {
+    pt: 'rajada'
+  },
+  tornado: {
+    pt: 'tornado'
   }
+
 }
 
 // example with clear sky -> all = 10
