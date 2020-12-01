@@ -5,7 +5,7 @@ const LANGUAGE = process.env.LANGUAGE
 const UNITS = process.env.UNITS
 
 const weatherForecast = async (location) => {
-  // workaround to deal with character
+  // workaround to deal with url accentuation characters
   if (location === 'São Paulo') {
     location = 'S%C3%A3o%20Paulo'
   }
