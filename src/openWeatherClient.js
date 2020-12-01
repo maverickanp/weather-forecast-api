@@ -12,7 +12,6 @@ const weatherForecast = async (location) => {
 
   try {
     const response = await axios.get(WEATHER_PUB_API + `?q=${location}&appid=${API_KEY}&units=${UNITS}&lang=${LANGUAGE}`)
-    // console.log('response:', JSON.stringify(response.data))
     return response.data.list
   } catch (error) {
     return error
@@ -22,7 +21,6 @@ const weatherForecast = async (location) => {
 const weatherIcon = async (icon = '01d') => {
   // get the icon from currenty description weather
   try {
-    // https://openweathermap.org/img/wn/{icon}@2x.png
     return `https://openweathermap.org/img/wn/${icon}@2x.png`
   } catch (error) {
     return error
